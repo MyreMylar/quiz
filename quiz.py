@@ -1,143 +1,77 @@
-import pygame
-from pygame.locals import *
-import csv
-import random
+# ---------------------------------------------------------------------------------------------------------------
+# Challenge 1
+# -------------
+#
+# Using some code from last week's quiz solution and some from
+# the pygame text example code file, open a pygame window and draw the
+# first question (with answers) in the loaded questions list
+# to the window.
+#
+# HINTS
+# - Start by opening up the pygame_draw_text file in the code editor, and
+#   see if you can change the text
+# - You can reference the first item in a list using an index of 0
+#   like so: quiz_questions_list[0]
+# - You can treat an indexed list member like a variable of that type
+#   so you can access it's data members and functions,
+#   like so: quiz_questions_list[0].answer_a
+# ---------------------------------------------------------------------------------------------------------------
 
 
-# Define class
-class QuizQuestion:
-    def __init__(self, question, answer_a, answer_b, answer_c, right_answer):
-        self.question = question
-        self.answer_a = answer_a
-        self.answer_b = answer_b
-        self.answer_c = answer_c
-        self.right_answer = right_answer
+# ---------------------------------------------------------------------------------------------------------------
+# Challenge 2
+# ---------------------
+#
+# Use pygame's keyboard input event system to change
+# the displayed question when the K_RETURN key is pressed.
+#
+# HINTS
+#
+# - You may find it useful to have an integer variable representing
+#   the current index position in the list.
+# - You can index into a list using an integer variable just as with a
+#   a number, like so: quiz_questions_list[current_question_index]
+# ---------------------------------------------------------------------------------------------------------------
 
 
-# load quiz questions from file to list
-quiz_questions_list = []
-with open("questions.csv") as questions_file:
-    read_csv = csv.reader(questions_file, delimiter=',')
-    for row in read_csv:
-        if len(row) == 5:
-            quiz_questions_list.append(QuizQuestion(row[0], row[1], row[2], row[3], row[4]))
+# ---------------------------------------------------------------------------------------------------------------
+# Challenge 3
+# ----------------------
+# We are going to recreate the control flow of our text quiz program in pygame.
+#
+# First - Add a True or False bool variable to check whether the current question has been answered or not.
+# You will need to reset this variable to False each time we change to a new question.
+
+# Second - Use pygame's keyboard events to check when the letters a, b or c are pressed and set
+# your current_question_answered variable to True.
+#
+# Third - Use an if statement to only allow the Return key to change to a new question if the
+# current_question_answered variable is True.
+#
+# Fourth - While current_question_answered is True display pygame text saying 'Correct' or 'False' depending on
+# if the correct answer was pressed in step 2.
+#
+# If you've done all that you should have the basics of a functioning pygame quiz.
+# ---------------------------------------------------------------------------------------------------------------
 
 
-def set_active_quiz_question(question_data: QuizQuestion, question_index: int):
-    drawn_text_data = []
-
-    y_pos = 100
-    question_text_render = font.render(str(question_index + 1) + ". " + question_data.question,
-                                       True, pygame.Color("#000000"))
-    question_text_render_rect = question_text_render.get_rect(centerx=320, centery=y_pos)
-    drawn_text_data.append([question_text_render, question_text_render_rect])
-    y_pos += 30
-
-    answer_a_text_render = font.render("A: " + question_data.answer_a, True, pygame.Color("#000000"))
-    answer_a_text_render_rect = answer_a_text_render.get_rect(x=250, centery=y_pos)
-    drawn_text_data.append([answer_a_text_render, answer_a_text_render_rect])
-    y_pos += 20
-
-    answer_b_text_render = font.render("B: " + question_data.answer_b, True, pygame.Color("#000000"))
-    answer_b_text_render_rect = answer_b_text_render.get_rect(x=250, centery=y_pos)
-    drawn_text_data.append([answer_b_text_render, answer_b_text_render_rect])
-    y_pos += 20
-
-    answer_c_text_render = font.render("C: " + question_data.answer_c, True, pygame.Color("#000000"))
-    answer_c_text_render_rect = answer_c_text_render.get_rect(x=250, centery=y_pos)
-    drawn_text_data.append([answer_c_text_render, answer_c_text_render_rect])
-
-    return drawn_text_data
-
-
-random.shuffle(quiz_questions_list)
-total_score = 0
-
-pygame.init()
-screen = pygame.display.set_mode((640, 480))
-
-background = pygame.Surface(screen.get_size())
-background = background.convert(screen)
-background.fill((220, 220, 220))
-
-font = pygame.font.Font(None, 20)
-
-correct_answers = 0
-active_quiz_question = 0
-rendered_text_data = set_active_quiz_question(quiz_questions_list[active_quiz_question], active_quiz_question)
-
-correct_text = None
-correct_text_rect = None
-
-answer_key = ""
-question_answered = False
-
-end_of_game = False
-end_text_1 = None
-end_text_1_rect = None
-end_text_2 = None
-end_text_2_rect = None
-
-clock = pygame.time.Clock()
-is_running = True
-while is_running:
-    clock.tick(60)
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            is_running = False
-        if event.type == KEYDOWN:
-            if event.key == K_RETURN:
-                if question_answered:
-                    if active_quiz_question < len(quiz_questions_list) - 1:
-                        active_quiz_question += 1
-                        rendered_text_data = set_active_quiz_question(quiz_questions_list[active_quiz_question],
-                                                                      active_quiz_question)
-                        question_answered = False
-                        correct_text = None
-                    else:
-                        rendered_text_data = []
-                        correct_text = None
-                        question_answered = False
-                        end_of_game = True
-            new_key_pressed = True
-            if event.key == K_a:
-                answer_key = "A"
-                question_answered = True
-            if event.key == K_b:
-                answer_key = "B"
-                question_answered = True
-            if event.key == K_c:
-                answer_key = "C"
-                question_answered = True
-
-    if question_answered and correct_text is None:
-        if answer_key == quiz_questions_list[active_quiz_question].right_answer:
-            correct_text = font.render("Correct! - Press enter for next question.", True, pygame.Color("#000000"))
-            correct_text_rect = correct_text.get_rect(centerx=320, centery=300)
-            correct_answers += 1
-        else:
-            correct_text = font.render("Wrong! - Press enter for next question.", True, pygame.Color("#000000"))
-            correct_text_rect = correct_text.get_rect(centerx=320, centery=300)
-
-    screen.blit(background, (0, 0))
-
-    if end_of_game:
-        if end_text_1 is None:
-            end_text_1 = font.render("End of quiz", True, pygame.Color("#000000"))
-            end_text_1_rect = end_text_1.get_rect(centerx=320, centery=200)
-
-            end_text_2 = font.render("You answered " + str(correct_answers) + "/21 correctly",
-                                     True, pygame.Color("#000000"))
-            end_text_2_rect = end_text_2.get_rect(centerx=320, centery=230)
-        screen.blit(end_text_1, end_text_1_rect)
-        screen.blit(end_text_2, end_text_2_rect)
-    else:
-        for text in rendered_text_data:
-            screen.blit(text[0], text[1])
-
-        if question_answered:
-            screen.blit(correct_text, correct_text_rect)
-
-    pygame.display.flip()  # flip all our drawn stuff onto the screen
-
-pygame.quit()  # exited game loop so quit pygame
+# ---------------------------------------------------------------------------------------------------------------
+# Bonus Challenges
+# -----------------------------
+# Put some final polish on your quiz.
+#
+# - Add back final score tracking and display and generally stop the quiz from crashing at the end.
+#   Perhaps add a 'retry quiz Y/N' prompt that starts the program over from the beginning.
+# - Use random.shuffle() to ask the questions in a random order.
+# - Add a 20 second time limit to answer each question and display the remaining time.
+#
+# HINT
+# - You can track time with a clock = pygame.time.Clock().
+# - You can call clock.tick(60) to get the number of milliseconds since tick() was last called.
+# - By adding the value of tick to a variable each loop we can keep track of how many milliseconds have passed
+#   since we last set the variable to zero. You could also start a timer at 20,000 milliseconds (20 seconds)
+#   and subtract ticks from it.
+# - Don't forget to divide your counter by 1,000 before displaying it.
+# - You will also want to round and convert your number of seconds to remove all the decimal places.
+#   Try something like - str(int(round(question_timer/1000)))
+# ---------------------------------------------------------------------------------------------------------------
