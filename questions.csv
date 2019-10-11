@@ -1,0 +1,21 @@
+"Which of these is an example of an integer?","'hello'","3.14","4",C
+"What would this expression evaluate to? 5 > 10","False","True","Cat",A
+"What would this expression evaluate to? not False","False","True","Else",B
+"You can refer to an item in a list by referring to what?","it's index","it's mother","it's surname",A
+"Which of these is NOT a Boolean logical operator?","and","or","link",C
+"I want to initialise an empty python list. How do I do this?","list == []","list = []","list{}",B
+"Which TV soap features the Beale and Mitchell families?","Coronation Street","EastEnders","Emmerdale",B
+"What type of creature is a gecko?","Bird","Fish","Lizard",C
+"What is created in space upon the collapse of a neutron star?","Asteroids","Black Hole","Galaxy",B
+"What name is given to a device which measures atmospheric pressure?","Ammeter","Barometer","Thermometer",B
+"What is the sum of the angles within a triangle?","90 degrees","120 degrees","180 degrees",C
+"Which numerical system only uses the chracters 0 and 1?","Binary","Cardinal","Hexadecimal",A
+"What nationality was the legendary mathematician Pythagoras?","Babylonian","Egyptian","Greek",C
+"What mathematical function is represented by the / symbol?","Average","Division","Reciprocal",B
+"Which of the following functions gets the length of a python string?","isupper()","join(seq)","len(string)",C
+"If my_variable = 'food', what is the data type of my_variable?","Integer","String","Boolean",B
+"In electronics, what do the letters LED stand for?","Light Emitting Diode","Low Emmission Drive","Long Emotive Dialog",A
+"Who created Minecraft?","Jonathon Blow","Notch","John Carmack",B
+"Which of these is a popular brand of small computer?","Apple Tart","Cranberry Cookie","Raspberry Pi",C
+"Which of these is a computer operating system?","Linux","Javascript","Servo",A
+"In technology the letters VR stands for...","Vanity Rasterization","Virtual Reality","Very Risky",B
